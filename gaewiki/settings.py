@@ -8,14 +8,14 @@ from google.appengine.api import memcache
 
 SETTINGS_PAGE_NAME = 'gaewiki:settings'
 
-DEFAULT_SETTINGS = """wiki_title: My Wiki
-start_page: Welcome
-admin_email: nobody@example.com
+DEFAULT_SETTINGS = """wiki_title: PLAST-TECH
+start_page: Wingdings
+admin_email: bruno@plast-tech.lv
 sidebar: gaewiki:sidebar
 footer: gaewiki:footer
-open-reading: yes
+open-reading: no
 open-editing: no
-editors: user1@example.com, user2@example.com
+editors: bruno@plast-tech.lv, rune@plast-tech.lv, edgars@plast-tech.lv
 interwiki-google: http://www.google.com/search?q=%s
 interwiki-wp: http://en.wikipedia.org/wiki/Special:Search?search=%s
 timezone: UTC
