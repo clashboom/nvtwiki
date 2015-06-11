@@ -33,7 +33,7 @@
     {% endif %}
   {% else %}
     <h1>{{ page.title }}</h1>
-    <p> This {{ _("page") }} does not exist.</p>
+    <p>This page does not exist.</p>
     {% if can_edit %}
     <form method="get" action="/w/edit">
       <input type="hidden" name="page" value="{{ page.title|escape }}"/>

@@ -4,16 +4,15 @@ import logging
 import os
 import traceback
 import urllib
-import webapp2
 
 from django.utils import simplejson
 from google.appengine.api import memcache
 from google.appengine.api import taskqueue
 from google.appengine.api import users
 from google.appengine.ext import blobstore
+from google.appengine.ext import webapp
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.runtime.apiproxy_errors import OverQuotaError
-from webapp2_extras import i18n
 
 import access
 import images
@@ -35,7 +34,7 @@ class BadRequest(Exception):
     pass
 
 
-class RequestHandler(webapp2.RequestHandler):
+class RequestHandler(webapp.RequestHandler):
     def reply(self, content, content_type='text/plain', status=200, save_as=None):
         self.response.headers['Content-Type'] = content_type + '; charset=utf-8'
         if save_as:
@@ -76,7 +75,7 @@ class RequestHandler(webapp2.RequestHandler):
         elif type(e) == NotFound:
             self.show_error_page(404)
         elif debug_mode:
-            return webapp2.RequestHandler.handle_exception(self, e, debug_mode)
+            return webapp.RequestHandler.handle_exception(self, e, debug_mode)
         else:
             self.show_error_page(500)
 
@@ -106,9 +105,6 @@ class RequestHandler(webapp2.RequestHandler):
 
 class PageHandler(RequestHandler):
     def get(self, page_name):
-        # Set the requested locale.
-        locale = self.request.GET.get('locale', 'lv')
-        i18n.get_i18n().set_locale(locale)
         try:
             self.show_page(urllib.unquote(page_name).decode('utf-8'))
         except OverQuotaError, e:
@@ -192,7 +188,7 @@ class EditHandler(RequestHandler):
         taskqueue.add(url="/w/cache/purge", params={})
 
 
-class CachePurgeHandler(webapp2.RequestHandler):
+class CachePurgeHandler(webapp.RequestHandler):
     def get(self):
         if users.is_current_user_admin():
             taskqueue.add(url="/w/cache/purge", params={})
